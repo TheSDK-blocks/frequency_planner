@@ -1,20 +1,21 @@
 """
 ========
-Inverter
+Frequency palnner
 ========
 
-Inverter model template The System Development Kit
-Used as a template for all TheSyDeKick Entities.
+Frequency planner for communications systems
+
+Provides an easy methodology to combine anad calculate frequency masks
 
 Current docstring documentation style is Numpy
 https://numpydoc.readthedocs.io/en/latest/format.html
 
-This text here is to remind you that documentation is iportant.
+This text here is to remind you that documentation is important.
 However, youu may find it out the even the documentation of this 
 entity may be outdated and incomplete. Regardless of that, every day 
 and in every way we are getting better and better :).
 
-Initially written by Marko Kosunen, marko.kosunen@aalto.fi, 2017.
+Initially written by Marko Kosunen, marko.kosunen@aalto.fi, 22.4.2020.
 
 """
 
@@ -40,17 +41,10 @@ class frequency_planner(rtl,eldo,thesdk):
 
     def __init__(self,*arg): 
         self.print_log(type='I', msg='Inititalizing %s' %(__name__)) 
-        self.proplist = [ 'Rs' ];    # Properties that can be propagated from parent
-        self.Rs =  100e6;            # Sampling frequency
-        self.vdd = 1.0
-        self.IOS=Bundle()
-        self.IOS.Members['A']=IO() # Pointer for input data
-        self.IOS.Members['Z']= IO()
+        self.IOS=Bundle()            # Just an idea. Plans could me IO's
         self.model='py';             # Can be set externally, but is not propagated
         self.par= False              # By default, no parallel processing
         self.queue= []               # By default, no parallel processing
-        self.IOS.Members['control_write']= IO() 
-        # File for control is created in controller
 
         if len(arg)>=1:
             parent=arg[0]
@@ -204,10 +198,12 @@ if __name__=="__main__":
             axes[1].set_ylabel('Output', **hfont,fontsize=18);
             axes[1].set_xlabel('Sample (n)', **hfont,fontsize=18);
             axes[1].grid(True)
-        titlestr = "Inverter model %s" %(duts[k].model) 
+        titlestr = "Analog FIR Frequency plan"
         plt.suptitle(titlestr,fontsize=20);
-        plt.grid(True);
-        printstr="./inv_%s.eps" %(duts[k].model)
+        printstr="./Analog_FIR_frequency_plan.eps"
+        #plt.subplots_adjust(hspace=0.4)
+        #plt.subplots_adjust(left=0.2)
+        plt.grid(True)
         plt.show(block=False);
         figure.savefig(printstr, format='eps', dpi=300);
     input()
